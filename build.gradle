@@ -30,5 +30,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'com.google.guava', name: 'guava', version: '21.0'
     compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-mongodb")
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

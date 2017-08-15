@@ -1,6 +1,8 @@
 package com.lffblk.restcup.controller;
 
 import com.lffblk.restcup.model.User;
+import com.lffblk.restcup.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -10,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired
+    UserRepository userRepository;
+
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
-    public User getUser(@PathVariable String userId) {
-        return new User(Integer.parseInt(userId), "Vasya", "Pupkin", "m", -73267200,
-                "ygothepewoegidno@me.com");
+    public User getUser(@PathVariable Integer userId) {
+//        return new User(userId, "Vasya", "Pupkin", "m", -73267200, "ygothepewoegidno@me.com");
+        return userRepository.findOne(userId);
     }
 }

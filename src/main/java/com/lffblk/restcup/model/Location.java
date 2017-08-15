@@ -1,12 +1,13 @@
 package com.lffblk.restcup.model;
 
 import com.google.common.base.MoreObjects;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by lffblk on 14.08.2017.
  */
 public class Location {
-    private int id;
+    @Id private int id;
     private int distance;
     private String country;
     private String city;

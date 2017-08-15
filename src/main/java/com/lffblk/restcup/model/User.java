@@ -2,13 +2,14 @@ package com.lffblk.restcup.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by lffblk on 14.08.2017.
  */
 
 public class User {
-    private int id;
+    @Id private int id;
     @JsonProperty("first_name") private String firstName;
     @JsonProperty("last_name")private String lastName;
     private String gender;

@@ -2,12 +2,13 @@ package com.lffblk.restcup.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by lffblk on 14.08.2017.
  */
 public class Visit {
-    private int id;
+    @Id private int id;
     @JsonProperty("user") private int userId;
     @JsonProperty("location") private int locationId;
     @JsonProperty("visited_at")private long date;
