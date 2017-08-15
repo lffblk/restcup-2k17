@@ -1,4 +1,4 @@
-package com.lffblk.restcup.model;
+package com.lffblk.restcup.model.entity;
 
 import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;

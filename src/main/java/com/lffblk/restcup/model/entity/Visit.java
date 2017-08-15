@@ -1,6 +1,5 @@
-package com.lffblk.restcup.model;
+package com.lffblk.restcup.model.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;
 
@@ -9,9 +8,9 @@ import org.springframework.data.annotation.Id;
  */
 public class Visit {
     @Id private int id;
-    @JsonProperty("user") private int userId;
-    @JsonProperty("location") private int locationId;
-    @JsonProperty("visited_at")private long date;
+    private int userId;
+    private int locationId;
+    private long date;
     private int mark;
 
     public Visit(int id, int userId, int locationId, long date, int mark) {

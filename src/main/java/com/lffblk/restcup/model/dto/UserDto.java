@@ -1,22 +1,20 @@
-package com.lffblk.restcup.model;
+package com.lffblk.restcup.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
-import org.springframework.data.annotation.Id;
 
 /**
- * Created by lffblk on 14.08.2017.
+ * Created by lffblk on 15.08.2017.
  */
-
-public class User {
-    @Id private int id;
+public class UserDto {
+    private int id;
     @JsonProperty("first_name") private String firstName;
     @JsonProperty("last_name")private String lastName;
     private String gender;
     @JsonProperty("birth_date") private long birthDate;
     private String email;
 
-    public User(int id, String firstName, String lastName, String gender, long birthDate, String email) {
+    public UserDto(int id, String firstName, String lastName, String gender, long birthDate, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
