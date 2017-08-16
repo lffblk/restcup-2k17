@@ -1,6 +1,7 @@
 package com.lffblk.restcup.controller;
 
 import com.lffblk.restcup.model.dto.AvgMarkDto;
+import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.LocationDto;
 import com.lffblk.restcup.model.entity.Location;
 import com.lffblk.restcup.model.entity.User;
@@ -67,7 +68,7 @@ public class LocationController {
         locationService.getLocationById(locationId);
         try {
             save(locationId, locationDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -78,7 +79,7 @@ public class LocationController {
     public ResponseEntity<?> add(@RequestBody LocationDto locationDto) {
         try {
             save(null, locationDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

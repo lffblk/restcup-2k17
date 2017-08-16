@@ -12,6 +12,8 @@ public class LocationDto {
     private String city;
     private String place;
 
+    public LocationDto() {}
+
     public LocationDto(int id, int distance, String country, String city, String place) {
         this.id = id;
         this.distance = distance;

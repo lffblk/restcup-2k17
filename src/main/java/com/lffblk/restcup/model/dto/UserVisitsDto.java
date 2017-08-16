@@ -10,6 +10,8 @@ import java.util.List;
 public class UserVisitsDto {
     private List<UserVisitDto> visits;
 
+    public UserVisitsDto() {}
+
     public UserVisitsDto(List<UserVisitDto> visits) {
         this.visits = visits;
     }

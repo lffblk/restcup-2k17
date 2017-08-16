@@ -1,5 +1,6 @@
 package com.lffblk.restcup.controller;
 
+import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.UserDto;
 import com.lffblk.restcup.model.dto.UserVisitDto;
 import com.lffblk.restcup.model.dto.UserVisitsDto;
@@ -10,6 +11,8 @@ import com.lffblk.restcup.service.LocationService;
 import com.lffblk.restcup.service.UserService;
 import com.lffblk.restcup.service.VisitService;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
+    private final static Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -69,7 +74,7 @@ public class UserController {
         userService.getUserById(userId);
         try {
             save(userId, userDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -78,10 +83,10 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ResponseEntity<?> add(@RequestBody UserDto userDto) {
-        System.out.println("HERE!!!!!");
+        LOG.debug("userDto = {}", userDto);
         try {
             save(null, userDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -89,10 +94,12 @@ public class UserController {
     }
 
     private void save(Integer userId, UserDto userDto) {
+        LOG.debug("save, userId = {}, userDto = {}", userId, userDto);
         User updatedUser = modelMapper.map(userDto, User.class);
         if (userId != null) {
             updatedUser.setId(userId);
         }
         userService.save(updatedUser);
+        LOG.debug("updatedUser = {}", updatedUser);
     }
 }

@@ -1,5 +1,6 @@
 package com.lffblk.restcup.controller;
 
+import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.VisitDto;
 import com.lffblk.restcup.model.entity.Visit;
 import com.lffblk.restcup.service.LocationService;
@@ -35,7 +36,7 @@ public class VisitController {
         visitService.getVisitById(visitId);
         try {
             save(visitId, visitDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
@@ -46,7 +47,7 @@ public class VisitController {
     public ResponseEntity<?> add(@RequestBody VisitDto visitDto) {
         try {
             save(null, visitDto);
-            return ResponseEntity.status(HttpStatus.OK).build();
+            return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();

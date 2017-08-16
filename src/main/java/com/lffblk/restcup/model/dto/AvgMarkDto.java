@@ -8,6 +8,8 @@ import com.google.common.base.MoreObjects;
 public class AvgMarkDto {
     private double avg;
 
+    public AvgMarkDto() {}
+
     public AvgMarkDto(double avg) {
         this.avg = avg;
     }

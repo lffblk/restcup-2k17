@@ -13,6 +13,8 @@ public class Location {
     private String city;
     private String place;
 
+    public Location() {}
+
     public Location(int id, int distance, String country, String city, String place) {
         this.id = id;
         this.distance = distance;

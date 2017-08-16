@@ -12,6 +12,8 @@ public class VisitDto {
     private long date;
     private int mark;
 
+    public VisitDto() {}
+
     public VisitDto(int id, int userId, int locationId, long date, int mark) {
         this.id = id;
         this.userId = userId;

@@ -14,6 +14,8 @@ public class UserDto {
     @JsonProperty("birth_date") private long birthDate;
     private String email;
 
+    public UserDto() {}
+
     public UserDto(int id, String firstName, String lastName, String gender, long birthDate, String email) {
         this.id = id;
         this.firstName = firstName;

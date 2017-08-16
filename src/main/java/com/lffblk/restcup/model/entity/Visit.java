@@ -13,6 +13,8 @@ public class Visit {
     private long date;
     private int mark;
 
+    public Visit() {}
+
     public Visit(int id, int userId, int locationId, long date, int mark) {
         this.id = id;
         this.userId = userId;

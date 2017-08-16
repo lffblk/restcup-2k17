@@ -11,6 +11,8 @@ public class UserVisitDto {
     @JsonProperty("visited_at")private long date;
     private int mark;
 
+    public UserVisitDto() {}
+
     public UserVisitDto(String place, long date, int mark) {
         this.place = place;
         this.date = date;

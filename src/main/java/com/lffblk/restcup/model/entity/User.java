@@ -15,6 +15,8 @@ public class User {
     private long birthDate;
     private String email;
 
+    public User() {}
+
     public User(int id, String firstName, String lastName, String gender, long birthDate, String email) {
         this.id = id;
         this.firstName = firstName;
