@@ -1,5 +1,6 @@
 package com.lffblk.restcup.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.MoreObjects;
 
 /**
@@ -7,9 +8,9 @@ import com.google.common.base.MoreObjects;
  */
 public class VisitDto {
     private int id;
-    private int userId;
-    private int locationId;
-    private long date;
+    @JsonProperty("user") private int userId;
+    @JsonProperty("location") private int locationId;
+    @JsonProperty("visited_at") private long date;
     private int mark;
 
     public VisitDto() {}

@@ -7,6 +7,7 @@ import com.lffblk.restcup.model.entity.Location;
 import com.lffblk.restcup.model.entity.User;
 import com.lffblk.restcup.model.entity.Visit;
 import com.lffblk.restcup.service.LocationService;
+import com.lffblk.restcup.service.PersistenceService;
 import com.lffblk.restcup.service.UserService;
 import com.lffblk.restcup.service.VisitService;
 import org.modelmapper.ModelMapper;
@@ -38,19 +39,21 @@ public class LocationController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PersistenceService persistenceService;
+
     @RequestMapping(method = RequestMethod.GET, value = "/{locationId}")
     public LocationDto getLocation(@PathVariable Integer locationId) {
-//        return new Location(locationId, 50, "Венесуэлла", "Новоомск","Ресторан");
         return modelMapper.map(locationService.getLocationById(locationId), LocationDto.class);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{locationId}/avg")
     public AvgMarkDto getAvgMark(@PathVariable Integer locationId,
-                                 @RequestParam(value="fromDate") Long fromDate,
-                                 @RequestParam(value="toDate") Long toDate,
-                                 @RequestParam(value="fromAge") Long fromAge,
-                                 @RequestParam(value="toAge") Long toAge,
-                                 @RequestParam(value="gender") String gender) {
+                                 @RequestParam(value="fromDate", required = false) Long fromDate,
+                                 @RequestParam(value="toDate", required = false) Long toDate,
+                                 @RequestParam(value="fromAge", required = false) Long fromAge,
+                                 @RequestParam(value="toAge", required = false) Long toAge,
+                                 @RequestParam(value="gender", required = false) String gender) {
         // in case location is absent, 404 error will be thrown
         locationService.getLocationById(locationId);
         List<Visit> visitsByLocation = visitService.getVisits(locationId, fromDate, toDate);
@@ -67,7 +70,7 @@ public class LocationController {
         // in case location is absent, 404 error will be thrown
         locationService.getLocationById(locationId);
         try {
-            save(locationId, locationDto);
+            persistenceService.save(locationId, locationDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
@@ -78,19 +81,11 @@ public class LocationController {
     @RequestMapping(method = RequestMethod.POST, value = "/new")
     public ResponseEntity<?> add(@RequestBody LocationDto locationDto) {
         try {
-            save(null, locationDto);
+            persistenceService.save(null, locationDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    private void save(Integer locationId, LocationDto locationDto) {
-        Location updatedLocation = modelMapper.map(locationDto, Location.class);
-        if (locationId != null) {
-            updatedLocation.setId(locationId);
-        }
-        locationService.save(updatedLocation);
     }
 }

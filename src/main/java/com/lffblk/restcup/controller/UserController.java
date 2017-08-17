@@ -8,6 +8,7 @@ import com.lffblk.restcup.model.entity.Location;
 import com.lffblk.restcup.model.entity.User;
 import com.lffblk.restcup.model.entity.Visit;
 import com.lffblk.restcup.service.LocationService;
+import com.lffblk.restcup.service.PersistenceService;
 import com.lffblk.restcup.service.UserService;
 import com.lffblk.restcup.service.VisitService;
 import org.modelmapper.ModelMapper;
@@ -42,18 +43,20 @@ public class UserController {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private PersistenceService persistenceService;
+
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}")
     public UserDto getUser(@PathVariable Integer userId) {
-//        return new User(userId, "Vasya", "Pupkin", "m", -73267200, "ygothepewoegidno@me.com");
         return modelMapper.map(userService.getUserById(userId), UserDto.class);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{userId}/visits")
     public UserVisitsDto getVisit(@PathVariable Integer userId,
-                                  @RequestParam(value="fromDate") Long fromDate,
-                                  @RequestParam(value="toDate") Long toDate,
-                                  @RequestParam(value="country") String country,
-                                  @RequestParam(value="toDistance") Integer toDistance) {
+                                  @RequestParam(value="fromDate", required = false) Long fromDate,
+                                  @RequestParam(value="toDate", required = false) Long toDate,
+                                  @RequestParam(value="country", required = false) String country,
+                                  @RequestParam(value="toDistance", required = false) Integer toDistance) {
 //        return new Visit(visitId, 148, 144, 1002632924, 4);
         // in case user is absent, 404 error will be thrown
         userService.getUserById(userId);
@@ -73,7 +76,7 @@ public class UserController {
         // in case location is absent, 404 error will be thrown
         userService.getUserById(userId);
         try {
-            save(userId, userDto);
+            persistenceService.save(userId, userDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
@@ -85,21 +88,11 @@ public class UserController {
     public ResponseEntity<?> add(@RequestBody UserDto userDto) {
         LOG.debug("userDto = {}", userDto);
         try {
-            save(null, userDto);
+            persistenceService.save(null, userDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-    }
-
-    private void save(Integer userId, UserDto userDto) {
-        LOG.debug("save, userId = {}, userDto = {}", userId, userDto);
-        User updatedUser = modelMapper.map(userDto, User.class);
-        if (userId != null) {
-            updatedUser.setId(userId);
-        }
-        userService.save(updatedUser);
-        LOG.debug("updatedUser = {}", updatedUser);
     }
 }
