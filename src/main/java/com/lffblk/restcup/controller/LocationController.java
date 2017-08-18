@@ -1,23 +1,26 @@
 package com.lffblk.restcup.controller;
 
+import com.lffblk.restcup.exception.EntityNotFoundException;
 import com.lffblk.restcup.model.dto.AvgMarkDto;
 import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.LocationDto;
 import com.lffblk.restcup.model.entity.Location;
 import com.lffblk.restcup.model.entity.User;
 import com.lffblk.restcup.model.entity.Visit;
-import com.lffblk.restcup.service.LocationService;
-import com.lffblk.restcup.service.PersistenceService;
-import com.lffblk.restcup.service.UserService;
-import com.lffblk.restcup.service.VisitService;
+import com.lffblk.restcup.service.*;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.OptionalDouble;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +29,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
+
+    private final static Logger LOG = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private LocationService locationService;
@@ -42,35 +47,52 @@ public class LocationController {
     @Autowired
     private PersistenceService persistenceService;
 
+    @Autowired
+    private IdConverterService idConverterService;
+
     @RequestMapping(method = RequestMethod.GET, value = "/{locationId}")
-    public LocationDto getLocation(@PathVariable Integer locationId) {
-        return modelMapper.map(locationService.getLocationById(locationId), LocationDto.class);
+    public LocationDto getLocation(@PathVariable String locationId) {
+        Integer id = idConverterService.convertId(locationId);
+        return modelMapper.map(locationService.getLocationById(id), LocationDto.class);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{locationId}/avg")
-    public AvgMarkDto getAvgMark(@PathVariable Integer locationId,
+    public AvgMarkDto getAvgMark(@PathVariable String locationId,
                                  @RequestParam(value="fromDate", required = false) Long fromDate,
                                  @RequestParam(value="toDate", required = false) Long toDate,
-                                 @RequestParam(value="fromAge", required = false) Long fromAge,
-                                 @RequestParam(value="toAge", required = false) Long toAge,
+                                 @RequestParam(value="fromAge", required = false) Integer fromAge,
+                                 @RequestParam(value="toAge", required = false) Integer toAge,
                                  @RequestParam(value="gender", required = false) String gender) {
+        LOG.debug("getAvgMark: locationId = {}, fromDate = {}, toDate = {}, fromAge = {}, toAge = {}, gender = {}",
+                locationId, fromDate, toDate, fromAge, toAge, gender);
+        Integer id = idConverterService.convertId(locationId);
         // in case location is absent, 404 error will be thrown
-        locationService.getLocationById(locationId);
-        List<Visit> visitsByLocation = visitService.getVisits(locationId, fromDate, toDate);
+        locationService.getLocationById(id);
+        List<Visit> visitsByLocation = visitService.getVisits(id, fromDate, toDate);
+        LOG.debug("visitsByLocation = {}", visitsByLocation);
         List<Visit> filteredVisits = visitsByLocation.stream().filter(visit -> {
             User user = userService.getUser(visit.getUserId(), fromAge, toAge);
-            return gender != null && user != null && gender.equals(user.getGender());
+//            if (user != null) {
+//                Date nowDate = new Date(System.currentTimeMillis());
+//                long diff = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(user.getBirthDate());
+//                LOG.debug("DIFF = {}", diff);
+//                Date date = new Date(diff);
+//                LOG.debug("AGE = {}", date.getYear());
+//            }
+            return user != null && (gender == null || gender.equals(user.getGender()));
         }).collect(Collectors.toList());
+        LOG.debug("filteredVisits = {}", filteredVisits);
         OptionalDouble avg = filteredVisits.stream().mapToInt(Visit::getMark).average();
         return avg.isPresent() ? new AvgMarkDto(avg.getAsDouble()) : new AvgMarkDto(0);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{locationId}")
-    public ResponseEntity<?> edit(@PathVariable Integer locationId, @RequestBody LocationDto locationDto) {
+    public ResponseEntity<?> edit(@PathVariable String locationId, @RequestBody LocationDto locationDto) {
         // in case location is absent, 404 error will be thrown
-        locationService.getLocationById(locationId);
+        Integer id = idConverterService.convertId(locationId);
+        locationService.getLocationById(id);
         try {
-            persistenceService.save(locationId, locationDto);
+            persistenceService.save(id, locationDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {

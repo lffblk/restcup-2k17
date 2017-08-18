@@ -31,7 +31,7 @@ public class Visit {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 

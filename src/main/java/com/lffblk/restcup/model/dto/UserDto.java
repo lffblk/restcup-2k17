@@ -11,12 +11,12 @@ public class UserDto {
     @JsonProperty("first_name") private String firstName;
     @JsonProperty("last_name")private String lastName;
     private String gender;
-    @JsonProperty("birth_date") private long birthDate;
+    @JsonProperty("birth_date") private int birthDate;
     private String email;
 
     public UserDto() {}
 
-    public UserDto(int id, String firstName, String lastName, String gender, long birthDate, String email) {
+    public UserDto(int id, String firstName, String lastName, String gender, int birthDate, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -57,11 +57,11 @@ public class UserDto {
         this.gender = gender;
     }
 
-    public long getBirthDate() {
+    public int getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(long birthDate) {
+    public void setBirthDate(int birthDate) {
         this.birthDate = birthDate;
     }
 

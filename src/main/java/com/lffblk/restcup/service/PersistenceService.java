@@ -33,32 +33,32 @@ public class PersistenceService {
     private VisitService visitService;
 
     public void save(Integer locationId, LocationDto locationDto) {
-        LOG.debug("save, locationId = {}, locationDto = {}", locationId, locationDto);
+        LOG.trace("save, locationId = {}, locationDto = {}", locationId, locationDto);
         Location updatedLocation = modelMapper.map(locationDto, Location.class);
         if (locationId != null) {
             updatedLocation.setId(locationId);
         }
         locationService.save(updatedLocation);
-        LOG.debug("updatedLocation = {}", updatedLocation);
+        LOG.trace("updatedLocation = {}", updatedLocation);
     }
 
     public void save(Integer userId, UserDto userDto) {
-        LOG.debug("save, userId = {}, userDto = {}", userId, userDto);
+        LOG.trace("save, userId = {}, userDto = {}", userId, userDto);
         User updatedUser = modelMapper.map(userDto, User.class);
         if (userId != null) {
             updatedUser.setId(userId);
         }
         userService.save(updatedUser);
-        LOG.debug("updatedUser = {}", updatedUser);
+        LOG.trace("updatedUser = {}", updatedUser);
     }
 
     public void save(Integer visitId, VisitDto visitDto) {
-        LOG.debug("save, visitId = {}, visitDto = {}", visitId, visitDto);
+        LOG.trace("save, visitId = {}, visitDto = {}", visitId, visitDto);
         Visit updatedVisit = modelMapper.map(visitDto, Visit.class);
         if (visitId != null) {
             updatedVisit.setId(visitId);
         }
         visitService.save(updatedVisit);
-        LOG.debug("updatedVisit = {}", updatedVisit);
+        LOG.trace("updatedVisit = {}", updatedVisit);
     }
 }

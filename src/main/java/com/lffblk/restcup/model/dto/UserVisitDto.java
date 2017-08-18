@@ -27,7 +27,7 @@ public class UserVisitDto {
         this.place = place;
     }
 
-    public long getDate() {
+    public Long getDate() {
         return date;
     }
 

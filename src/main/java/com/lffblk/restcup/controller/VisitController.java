@@ -3,6 +3,7 @@ package com.lffblk.restcup.controller;
 import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.VisitDto;
 import com.lffblk.restcup.model.entity.Visit;
+import com.lffblk.restcup.service.IdConverterService;
 import com.lffblk.restcup.service.LocationService;
 import com.lffblk.restcup.service.PersistenceService;
 import com.lffblk.restcup.service.VisitService;
@@ -28,17 +29,22 @@ public class VisitController {
     @Autowired
     private PersistenceService persistenceService;
 
+    @Autowired
+    IdConverterService idConverterService;
+
     @RequestMapping(method = RequestMethod.GET, value = "/{visitId}")
-    public VisitDto getVisit(@PathVariable Integer visitId) {
-        return modelMapper.map(visitService.getVisitById(visitId), VisitDto.class);
+    public VisitDto getVisit(@PathVariable String visitId) {
+        Integer id = idConverterService.convertId(visitId);
+        return modelMapper.map(visitService.getVisitById(id), VisitDto.class);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/{visitId}")
-    public ResponseEntity<?> edit(@PathVariable Integer visitId, @RequestBody VisitDto visitDto) {
+    public ResponseEntity<?> edit(@PathVariable String visitId, @RequestBody VisitDto visitDto) {
+        Integer id = idConverterService.convertId(visitId);
         // in case location is absent, 404 error will be thrown
-        visitService.getVisitById(visitId);
+        visitService.getVisitById(id);
         try {
-            persistenceService.save(visitId, visitDto);
+            persistenceService.save(id, visitDto);
             return ResponseEntity.status(HttpStatus.OK).body(new EmptyJsonResponse());
         }
         catch (Exception e) {
