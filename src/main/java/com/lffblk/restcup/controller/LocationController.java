@@ -1,10 +1,8 @@
 package com.lffblk.restcup.controller;
 
-import com.lffblk.restcup.exception.EntityNotFoundException;
 import com.lffblk.restcup.model.dto.AvgMarkDto;
 import com.lffblk.restcup.model.dto.EmptyJsonResponse;
 import com.lffblk.restcup.model.dto.LocationDto;
-import com.lffblk.restcup.model.entity.Location;
 import com.lffblk.restcup.model.entity.User;
 import com.lffblk.restcup.model.entity.Visit;
 import com.lffblk.restcup.service.*;
@@ -16,11 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.OptionalDouble;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -72,13 +66,6 @@ public class LocationController {
         LOG.debug("visitsByLocation = {}", visitsByLocation);
         List<Visit> filteredVisits = visitsByLocation.stream().filter(visit -> {
             User user = userService.getUser(visit.getUserId(), fromAge, toAge);
-//            if (user != null) {
-//                Date nowDate = new Date(System.currentTimeMillis());
-//                long diff = System.currentTimeMillis() - TimeUnit.SECONDS.toMillis(user.getBirthDate());
-//                LOG.debug("DIFF = {}", diff);
-//                Date date = new Date(diff);
-//                LOG.debug("AGE = {}", date.getYear());
-//            }
             return user != null && (gender == null || gender.equals(user.getGender()));
         }).collect(Collectors.toList());
         LOG.debug("filteredVisits = {}", filteredVisits);

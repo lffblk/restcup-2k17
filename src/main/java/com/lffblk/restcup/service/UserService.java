@@ -1,16 +1,13 @@
 package com.lffblk.restcup.service;
 
-import com.lffblk.restcup.controller.UserController;
 import com.lffblk.restcup.exception.EntityNotFoundException;
 import com.lffblk.restcup.model.entity.User;
 import com.lffblk.restcup.repository.UserRepository;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Calendar;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by lffblk on 15.08.2017.
@@ -50,31 +47,17 @@ public class UserService {
     private User checkUserBirthDate(User user, Integer fromAge, Integer toAge) {
         LOG.debug("checkUserFrom: User = {}, fromAge = {}, toAge = {}", user, fromAge, toAge);
         if (fromAge == null && toAge == null) return user;
-        Calendar calendar = Calendar.getInstance();
+        DateTime now = new DateTime(System.currentTimeMillis());
+        DateTime birthDate = new DateTime(user.getBirthDate() * 1000L);
 
         if (fromAge != null) {
-            calendar.set(Calendar.YEAR, fromAge);
-            int daysInYear = calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
-            long yearsInMillis = TimeUnit.DAYS.toMillis(daysInYear);
-            long relativeFromDate = System.currentTimeMillis() - yearsInMillis;
-            Calendar birthCalendar = Calendar.getInstance();
-            birthCalendar.set(Calendar.SECOND, user.getBirthDate());
-            Calendar relativeCalendar = Calendar.getInstance();
-            relativeCalendar.setTimeInMillis(relativeFromDate);
-            if (birthCalendar.compareTo(relativeCalendar) < 0) return  null;
-//            long birthDayInMillis = TimeUnit.SECONDS.toMillis(user.getBirthDate());
+            DateTime relatedDate = new DateTime(now).minusYears(fromAge);
+            if (birthDate.isAfter(relatedDate)) return null;
         }
 
         if (toAge != null) {
-            calendar.set(Calendar.YEAR, toAge);
-            int daysInYear = calendar.getActualMaximum(Calendar.DAY_OF_YEAR);
-            long yearsInMillis = TimeUnit.DAYS.toMillis(daysInYear);
-            long relativeToDate = System.currentTimeMillis() - yearsInMillis;
-            Calendar birthCalendar = Calendar.getInstance();
-            birthCalendar.setTimeInMillis(user.getBirthDate());
-            Calendar relativeCalendar = Calendar.getInstance();
-            relativeCalendar.setTimeInMillis(relativeToDate);
-            if (birthCalendar.compareTo(relativeCalendar) > 0) return  null;
+            DateTime relatedDate = new DateTime(now).minusYears(toAge);
+            if (birthDate.isBefore(relatedDate)) return null;
         }
         return user;
     }

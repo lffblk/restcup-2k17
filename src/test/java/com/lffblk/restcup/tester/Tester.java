@@ -48,7 +48,11 @@ public class Tester {
             List<Request> requests = Lists.newArrayList();
             Files.lines(Paths.get(requestsFileName), StandardCharsets.UTF_8).forEach(line -> {
                 Request request = null;
-                if (line.startsWith("GET")) {
+                if (line.startsWith("{")) {
+                    PostRequest lastRequest = (PostRequest) requests.get(requests.size() - 1);
+                    lastRequest.setPostBody(line);
+                }
+                else if (line.startsWith("GET")) {
                     request = new GetRequest("http://localhost:8080", line.substring(4, line.length() - 9));
                 }
                 else if (line.startsWith("POST")) {
@@ -65,9 +69,9 @@ public class Tester {
                 Request request = requestIterator.next();
                 int startCodeIndex = line.lastIndexOf(request.getUrl()) + request.getUrl().length() + 1;
                 String code = line.substring(startCodeIndex, startCodeIndex + 3);
-                String expectedAnser = startCodeIndex + 4 < line.length()
-                        ? line.substring(startCodeIndex + 4, line.length()) : null;
-                Response response = new Response(expectedAnser, Integer.parseInt(code), request);
+                String expectedAnswer = startCodeIndex + 4 < line.length()
+                        ? line.substring(startCodeIndex + 4, line.length()) : "{}";
+                Response response = new Response(expectedAnswer, Integer.parseInt(code), request);
                 responses.add(response);
             });
             size = responses.size();
