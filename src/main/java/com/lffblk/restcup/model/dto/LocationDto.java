@@ -6,15 +6,15 @@ import com.google.common.base.MoreObjects;
  * Created by lffblk on 15.08.2017.
  */
 public class LocationDto {
-    private int id;
-    private int distance;
-    private String country;
-    private String city;
-    private String place;
+    private Integer id = -1;
+    private Integer distance = -1;
+    private String country = "";
+    private String city = "";
+    private String place = "";
 
     public LocationDto() {}
 
-    public LocationDto(int id, int distance, String country, String city, String place) {
+    public LocationDto(Integer id, Integer distance, String country, String city, String place) {
         this.id = id;
         this.distance = distance;
         this.country = country;
@@ -22,19 +22,19 @@ public class LocationDto {
         this.place = place;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 

@@ -3,19 +3,21 @@ package com.lffblk.restcup.model.entity;
 import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by lffblk on 14.08.2017.
  */
 public class Location {
-    @Id private int id;
-    private int distance;
-    private String country;
-    private String city;
-    private String place;
+    @NotNull @Id private Integer id;
+    @NotNull private Integer distance;
+    @NotNull private String country;
+    @NotNull private String city;
+    @NotNull private String place;
 
     public Location() {}
 
-    public Location(int id, int distance, String country, String city, String place) {
+    public Location(Integer id, Integer distance, String country, String city, String place) {
         this.id = id;
         this.distance = distance;
         this.country = country;
@@ -23,19 +25,19 @@ public class Location {
         this.place = place;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getDistance() {
+    public Integer getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(Integer distance) {
         this.distance = distance;
     }
 

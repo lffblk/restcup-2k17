@@ -7,17 +7,17 @@ import com.google.common.base.MoreObjects;
  * Created by lffblk on 15.08.2017.
  */
 public class UserDto {
-    private int id;
-    @JsonProperty("first_name") private String firstName;
-    @JsonProperty("last_name")private String lastName;
-    private String gender;
-    @JsonProperty("birth_date") private int birthDate;
-    private String email;
+    private Integer id = -1;
+    @JsonProperty("first_name") private String firstName = "";
+    @JsonProperty("last_name")private String lastName = "";
+    private String gender = "";
+    @JsonProperty("birth_date") private Integer birthDate = -1;
+    private String email = "";
 
     public UserDto() {}
 
-    public UserDto(int id, String firstName, String lastName, String gender, int birthDate, String email) {
-        this.id = id;
+    public UserDto(Integer id, String firstName, String lastName, String gender, Integer birthDate, String email) {
+        this.id = -1;
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
@@ -25,11 +25,11 @@ public class UserDto {
         this.email = email;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -57,11 +57,11 @@ public class UserDto {
         this.gender = gender;
     }
 
-    public int getBirthDate() {
+    public Integer getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(int birthDate) {
+    public void setBirthDate(Integer birthDate) {
         this.birthDate = birthDate;
     }
 

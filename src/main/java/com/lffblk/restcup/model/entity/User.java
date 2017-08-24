@@ -3,21 +3,23 @@ package com.lffblk.restcup.model.entity;
 import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by lffblk on 14.08.2017.
  */
 
 public class User {
-    @Id private int id;
-    private String firstName;
-    private String lastName;
-    private String gender;
-    private int birthDate;
-    private String email;
+    @NotNull @Id private Integer id;
+    @NotNull private String firstName;
+    @NotNull private String lastName;
+    @NotNull private String gender;
+    @NotNull private Integer birthDate;
+    @NotNull private String email;
 
     public User() {}
 
-    public User(int id, String firstName, String lastName, String gender, int birthDate, String email) {
+    public User(Integer id, String firstName, String lastName, String gender, Integer birthDate, String email) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -26,11 +28,11 @@ public class User {
         this.email = email;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,11 +60,11 @@ public class User {
         this.gender = gender;
     }
 
-    public int getBirthDate() {
+    public Integer getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(int birthDate) {
+    public void setBirthDate(Integer birthDate) {
         this.birthDate = birthDate;
     }
 

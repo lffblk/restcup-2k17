@@ -29,9 +29,9 @@ public class Application implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         try {
-//            LOG.info("Filling db...");
-//            fileService.persistData(fileService.unzipArchive());
-//            LOG.info("Filling db DONE!");
+            LOG.info("Filling db...");
+            fileService.persistData(fileService.unzipArchive());
+            LOG.info("Filling db DONE!");
         }
         catch (Exception e) {
             LOG.error("Exception: ", e);

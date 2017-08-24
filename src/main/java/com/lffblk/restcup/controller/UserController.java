@@ -78,6 +78,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{userId}")
     public ResponseEntity<?> edit(@PathVariable String userId, @RequestBody UserDto userDto) {
+        LOG.debug("edit user: userId = {}, userDto = {}", userId, userDto);
         Integer id = idConverterService.convertId(userId);
         // in case location is absent, 404 error will be thrown
         userService.getUserById(id);

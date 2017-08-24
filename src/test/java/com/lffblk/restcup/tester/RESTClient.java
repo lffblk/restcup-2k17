@@ -29,7 +29,6 @@ public class RESTClient {
             if ("GET".equals(response.getRequest().getMethod())) {
                 conn.setRequestProperty("Accept", "application/json");
             } else if ("POST".equals(response.getRequest().getMethod())) {
-                LOG.debug("POST REQUEST: {}", request);
                 conn.setRequestProperty("Content-Type", "application/json");
                 conn.setDoOutput(true);
                 if (((PostRequest)response.getRequest()).getPostBody() != null) {

@@ -3,19 +3,21 @@ package com.lffblk.restcup.model.entity;
 import com.google.common.base.MoreObjects;
 import org.springframework.data.annotation.Id;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * Created by lffblk on 14.08.2017.
  */
 public class Visit {
-    @Id private int id;
-    private int userId;
-    private int locationId;
-    private long date;
-    private int mark;
+    @NotNull @Id private Integer id;
+    @NotNull private Integer userId;
+    @NotNull private Integer locationId;
+    @NotNull private Long date;
+    @NotNull private Integer mark;
 
     public Visit() {}
 
-    public Visit(int id, int userId, int locationId, long date, int mark) {
+    public Visit(Integer id, Integer userId, Integer locationId, Long date, Integer mark) {
         this.id = id;
         this.userId = userId;
         this.locationId = locationId;
@@ -23,11 +25,11 @@ public class Visit {
         this.mark = mark;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,31 +37,31 @@ public class Visit {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getLocationId() {
+    public Integer getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Integer locationId) {
         this.locationId = locationId;
     }
 
-    public long getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public int getMark() {
+    public Integer getMark() {
         return mark;
     }
 
-    public void setMark(int mark) {
+    public void setMark(Integer mark) {
         this.mark = mark;
     }
 

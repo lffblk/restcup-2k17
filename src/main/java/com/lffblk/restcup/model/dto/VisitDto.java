@@ -7,15 +7,15 @@ import com.google.common.base.MoreObjects;
  * Created by lffblk on 15.08.2017.
  */
 public class VisitDto {
-    private int id;
-    @JsonProperty("user") private int userId;
-    @JsonProperty("location") private int locationId;
-    @JsonProperty("visited_at") private long date;
-    private int mark;
+    private Integer id = -1;
+    @JsonProperty("user") private Integer userId = -1;
+    @JsonProperty("location") private Integer locationId = -1;
+    @JsonProperty("visited_at") private Long date = -1L;
+    private Integer mark = -1;
 
     public VisitDto() {}
 
-    public VisitDto(int id, int userId, int locationId, long date, int mark) {
+    public VisitDto(Integer id, Integer userId, Integer locationId, Long date, Integer mark) {
         this.id = id;
         this.userId = userId;
         this.locationId = locationId;
@@ -23,43 +23,43 @@ public class VisitDto {
         this.mark = mark;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(int userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public int getLocationId() {
+    public Integer getLocationId() {
         return locationId;
     }
 
-    public void setLocationId(int locationId) {
+    public void setLocationId(Integer locationId) {
         this.locationId = locationId;
     }
 
-    public long getDate() {
+    public Long getDate() {
         return date;
     }
 
-    public void setDate(long date) {
+    public void setDate(Long date) {
         this.date = date;
     }
 
-    public int getMark() {
+    public Integer getMark() {
         return mark;
     }
 
-    public void setMark(int mark) {
+    public void setMark(Integer mark) {
         this.mark = mark;
     }
 

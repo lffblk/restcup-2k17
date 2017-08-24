@@ -75,6 +75,7 @@ public class LocationController {
 
     @RequestMapping(method = RequestMethod.POST, value = "/{locationId}")
     public ResponseEntity<?> edit(@PathVariable String locationId, @RequestBody LocationDto locationDto) {
+        LOG.debug("edit location: locationId = {}, locationDto = {}", locationId, locationDto);
         // in case location is absent, 404 error will be thrown
         Integer id = idConverterService.convertId(locationId);
         locationService.getLocationById(id);
